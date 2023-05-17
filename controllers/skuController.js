@@ -14,7 +14,7 @@ async function getAllSkus(req, res) {
 
       const skuLinks = await links.findAll({
         where: { reference_id: skuId },
-        attributes: ['url'] // Retrieve only the 'url' attribute from the links table
+        attributes: ['url']
       });
 
       urlsArray = []
@@ -32,6 +32,35 @@ async function getAllSkus(req, res) {
     
   }
 }
+
+async function getSingle(req, res) {
+  try {
+
+    const { skuId } = req.params;
+    const singleSku = await sku.findByPk(skuId);
+    if(!singleSku) {
+      return res.status(404).json({ error: 'SKU not found' });
+    }
+
+    const skuLinks = await links.findAll({
+      where: { reference_id: skuId },
+      attributes: ['url']
+    });
+
+    urls = [];
+    const { id, name } = singleSku
+    skuLinks.forEach(link => urls.push(link.url));
+    return res.status(200).json({id, name, urls});
+
+  } catch (error) {
+
+    console.error(error);
+    return res.status(500).json({ error: 'Server error' });
+    
+  }
+}
+
+
 
 async function createSku(req, res) {
   try {
@@ -77,5 +106,6 @@ async function deleteSkuAndUrls(req, res) {
 module.exports = {
   getAllSkus,
   createSku,
-  deleteSkuAndUrls
+  deleteSkuAndUrls,
+  getSingle
 };

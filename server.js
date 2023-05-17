@@ -15,10 +15,10 @@ app.use(express.json());
 const db = require("./models");
 db.sequelize.sync()
   .then(() => {
-    console.log("Synced db.");
+    console.log("Db bridge connected 😊 ✅");
   })
   .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
+    console.log("Failed to connect to db : " + err.message);
   });
 
 
