@@ -37,7 +37,30 @@ async function createLink(req, res) {
   }
 }
 
+async function deleteLink(req, res) {
+  try {
+    const { id } = req.params;
+
+    const link = await links.findByPk(id);
+
+    if (!link) {
+      return res.status(404).json({ error: 'Link not found' });
+    }
+
+    await link.destroy();
+
+    return res.status(200).json({ message: 'Link deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+
+
+
 module.exports = {
   getAllLinks,
   createLink,
+  deleteLink
 };
