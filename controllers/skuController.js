@@ -48,7 +48,34 @@ async function createSku(req, res) {
   }
 }
 
+async function deleteSkuAndUrls(req, res) {
+  try {
+    const { id } = req.params;
+
+    const skuRecord = await sku.findByPk(id);
+
+    if (!skuRecord) {
+      return res.status(404).json({ error: 'SKU not found' });
+    }
+
+    await links.destroy({
+      where: { reference_id: id }
+    });
+
+    await skuRecord.destroy();
+
+    return res.status(200).json({ message: 'SKU and associated URLs deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+
+
+
 module.exports = {
   getAllSkus,
   createSku,
+  deleteSkuAndUrls
 };
