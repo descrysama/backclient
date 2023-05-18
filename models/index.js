@@ -32,5 +32,7 @@ db.sequelize = sequelize;
 db.skus = require("./sku.js")(sequelize, Sequelize);
 db.links = require("./links.js")(sequelize, Sequelize);
 db.websitesScripts = require("./websites_scripts.js")(sequelize, Sequelize);
+db.utopyaLinks = require("./utopya_links.js")(sequelize, Sequelize);
+db.mobilaxLinks = require("./mobilax_links.js")(sequelize, Sequelize);
 
 module.exports = db;
