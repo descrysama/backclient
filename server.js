@@ -25,9 +25,11 @@ db.sequelize.sync()
 
 const skuRoutes = require('./routes/skuRoutes');
 const linksRoutes = require('./routes/linksRoutes');
+const linksRoutes = require('./routes/scriptRoutes');
 
 app.use('/sku', skuRoutes);
 app.use('/links', linksRoutes);
+app.use('/script', scriptRoutes);
 
 
 app.listen(port, () => console.log('Serveur ouvert sur le port : ' + port))
