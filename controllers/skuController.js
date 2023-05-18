@@ -60,8 +60,6 @@ async function getSingle(req, res) {
   }
 }
 
-
-
 async function createSku(req, res) {
   try {
 
@@ -76,6 +74,48 @@ async function createSku(req, res) {
 
   }
 }
+
+const searchSku = async (req, res) => {
+  try {
+
+    const { query } = req.body
+    const skus = await sku.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${query}%`
+        }
+      }
+    });
+
+    if(!sku) {
+      return res.status(404).json({ error: 'no SKUs found' });
+    }
+
+    return res.status(200).json(skus);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Failed to search SKUs' });
+  }
+};
+
+const updateSku = async (req, res) => {
+  try {
+    const skuId = req.params.id;
+    const updatedData = req.body;
+
+    const skuToUpdate = await sku.findByPk(skuId);
+    if (!skuToUpdate) {
+      return res.status(404).json({ error: 'SKU not found' });
+    }
+
+    await skuToUpdate.update(updatedData);
+
+    return res.status(200).json(skuToUpdate);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Failed to update SKU' });
+  }
+};
 
 async function deleteSkuAndUrls(req, res) {
   try {
@@ -106,6 +146,8 @@ async function deleteSkuAndUrls(req, res) {
 module.exports = {
   getAllSkus,
   createSku,
+  searchSku,
+  updateSku,
   deleteSkuAndUrls,
   getSingle
 };
