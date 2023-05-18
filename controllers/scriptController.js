@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
 async function runScript(req, res) {
-    exec('bash your_script.sh', (error, stdout, stderr) => {
+    exec('bash /var/www/scripts/main_runner.sh', (error, stdout, stderr) => {
         if (error) {
           console.error(`Error: ${error.message}`);
           res.status(500).send('An error occurred while executing the script.');
