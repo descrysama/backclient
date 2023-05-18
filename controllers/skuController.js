@@ -14,11 +14,11 @@ async function getAllSkus(req, res) {
 
       const skuLinks = await links.findAll({
         where: { reference_id: skuId },
-        attributes: ['url']
+        attributes: ['url', 'id']
       });
 
       urlsArray = []
-      skuLinks.map((link) => urlsArray.push(link.url));
+      skuLinks.map((link) => urlsArray.push({id: link.id, url: link.url}));
 
       allSkusPopulated.push({id: skuId, name: skuRecord.name, urls: urlsArray})
     }
@@ -44,12 +44,12 @@ async function getSingle(req, res) {
 
     const skuLinks = await links.findAll({
       where: { reference_id: skuId },
-      attributes: ['url']
+      attributes: ['url', 'id']
     });
 
     urls = [];
     const { id, name } = singleSku
-    skuLinks.forEach(link => urls.push(link.url));
+    skuLinks.forEach(link => urls.push({id: link.id, url: link.url}));
     return res.status(200).json({id, name, urls});
 
   } catch (error) {
@@ -109,6 +109,25 @@ const updateSku = async (req, res) => {
     }
 
     await skuToUpdate.update(updatedData);
+
+    if(updatedData.urls) {
+      updatedData.urls.map(async(link) => {
+        if(link.id) {
+          try {
+            const linkToUpdate = await links.findByPk(link.id);
+            linkToUpdate.update({url : link.url})
+          } catch(e) {
+            throw Error("Une erreur s'est produite :" + e);
+          }
+        } else {
+          try {
+            await links.create({ reference_id: skuId, url: link.url });
+          } catch(e) {
+            throw Error("Une erreur s'est produite :" + e);
+          }
+        }
+      })
+    }
 
     return res.status(200).json(skuToUpdate);
   } catch (error) {
