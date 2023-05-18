@@ -25,7 +25,7 @@ db.sequelize.sync()
 
 const skuRoutes = require('./routes/skuRoutes');
 const linksRoutes = require('./routes/linksRoutes');
-const linksRoutes = require('./routes/scriptRoutes');
+const scriptRoutes = require('./routes/scriptRoutes');
 
 app.use('/sku', skuRoutes);
 app.use('/links', linksRoutes);
