@@ -18,7 +18,7 @@ async function runScript(req, res) {
 }
 
 async function runMain(req, res) {
-  exec('bash /var/www/scripts/competitor_scripts/runfinalscript.sh', (error, stdout, stderr) => {
+  exec('bash /var/www/scripts/runcompetitor_script.sh', (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error.message}`);
       res.status(500).json({error: 'An error occurred while executing the script.'});
