@@ -64,6 +64,15 @@ async function createSku(req, res) {
   try {
 
     const { name } = req.body;
+    const skuRecord = await sku.findOne({
+      where: {
+        name: name.trim()
+      }
+    });
+
+    if(skuRecord) {
+      return res.status(404).json({ error: 'SKU déjà existant' });
+    }
     const createdSku = await sku.create({ name });
 
     return res.status(201).json(createdSku);
