@@ -23,7 +23,7 @@ async function createLink(req, res) {
     const { referenceId, url } = req.body;
 
     const skuRecord = await sku.findByPk(referenceId);
-    const checkIfExists = sku.findOne({
+    const checkIfExists = await sku.findOne({
       where: {
         url: url
       }
