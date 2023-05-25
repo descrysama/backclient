@@ -13,7 +13,7 @@ async function runScript(req, res) {
           return;
         }
         console.log(`Script output: ${stdout}`);
-        res.status(200).json({message: 'Exécution du terminée. Retrouvez le sur http://79.137.87.52/final_output.xlsx'});
+        res.status(200).json({message: 'Exécution du terminée. Retrouvez le sur'});
       });
 }
 
