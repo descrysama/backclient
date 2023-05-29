@@ -8,7 +8,7 @@ const port = 5000;
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.HOST_URL,
   credentials: true,
 };
 
