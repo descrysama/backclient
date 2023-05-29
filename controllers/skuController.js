@@ -20,7 +20,7 @@ async function getAllSkus(req, res) {
       urlsArray = []
       skuLinks.map((link) => urlsArray.push({id: link.id, url: link.url}));
 
-      allSkusPopulated.push({id: skuId, name: skuRecord.name, prix_fournisseur: skuRecord.prix_fournisseur, urls: urlsArray})
+      allSkusPopulated.push({id: skuId, name: skuRecord.name, prix_fournisseur: skuRecord.prix_fournisseur, internal_ref: skuRecord.internal_ref, urls: urlsArray})
     }
 
     return res.status(200).json(allSkusPopulated);
@@ -48,9 +48,9 @@ async function getSingle(req, res) {
     });
 
     urls = [];
-    const { id, name, prix_fournisseur } = singleSku
+    const { id, name, prix_fournisseur, internal_ref } = singleSku
     skuLinks.forEach(link => urls.push({id: link.id, url: link.url}));
-    return res.status(200).json({id, name, prix_fournisseur, urls});
+    return res.status(200).json({id, name, prix_fournisseur, internal_ref, urls});
 
   } catch (error) {
 

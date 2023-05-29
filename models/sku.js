@@ -14,6 +14,11 @@ module.exports = function(sequelize, DataTypes) {
     prix_fournisseur: {
       type: DataTypes.FLOAT,
       allowNull: true
+    },
+    internal_ref: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: 0
     }
   }, {
     sequelize,
