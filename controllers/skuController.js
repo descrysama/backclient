@@ -33,6 +33,37 @@ async function getAllSkus(req, res) {
   }
 }
 
+async function getInternalSku(req,res){
+  try {
+
+    const allSkus = await sku.findAll({
+      where: { internal_ref: 1 }
+    });
+    const allSkusPopulated = [];
+    for (const skuRecord of allSkus) {
+      const skuId = skuRecord.id;
+
+      const skuLinks = await links.findAll({
+        where: { reference_id: skuId },
+        attributes: ['url', 'id']
+      });
+
+      urlsArray = []
+      skuLinks.map((link) => urlsArray.push({id: link.id, url: link.url}));
+
+      allSkusPopulated.push({id: skuId, name: skuRecord.name, prix_fournisseur: skuRecord.prix_fournisseur, internal_ref: skuRecord.internal_ref, urls: urlsArray})
+    }
+
+    return res.status(200).json(allSkusPopulated);
+
+  } catch (error) {
+
+    console.error(error);
+    return res.status(500).json({ error: 'Server error' });
+    
+  }
+}
+
 async function getSingle(req, res) {
   try {
 
@@ -173,6 +204,7 @@ async function deleteSkuAndUrls(req, res) {
 
 module.exports = {
   getAllSkus,
+  getInternalSku,
   createSku,
   searchSku,
   updateSku,

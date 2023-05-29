@@ -5,6 +5,7 @@ const Middle = require('../middlewares/authenticateToken')
 
 router.get('/get', skuController.getAllSkus);
 router.get('/get/:skuId', skuController.getSingle);
+router.get('/getinternal', skuController.getInternalSku);
 router.delete('/delete/:id', Middle.authToken, skuController.deleteSkuAndUrls);
 router.patch('/update/:id', Middle.authToken, skuController.updateSku);
 router.post('/create', Middle.authToken, skuController.createSku);
