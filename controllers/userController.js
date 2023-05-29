@@ -29,34 +29,6 @@ module.exports.checkToken = (req, res) => {
     }
 }
 
-module.exports.register = async(req , res) => {
-    const { username } = req.body
-    const password = hashPassword(req.body.password);
-    
-    try {
-        const data = await users.create({
-            username: username,
-            password: password
-        })
-        if (data) {
-            res.json({
-                status: true,
-                message: 'Inscription Réussie'
-            })
-        } else {
-            res.json({
-                status: false,
-                error: 'Champs incorrects'
-            })
-        }
-    } catch (error) {
-        res.json({
-            error: error
-        })
-    }
-    
-}
-
 module.exports.logout = async(req, res) => {
     res.cookie("_auth", "", { maxAge: 1 });
     res.json({message: "Deconnexion réussi"})
