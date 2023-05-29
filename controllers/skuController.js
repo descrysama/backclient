@@ -94,7 +94,7 @@ async function getSingle(req, res) {
 async function createSku(req, res) {
   try {
 
-    const { name, prix_fournisseur } = req.body;
+    const { name, prix_fournisseur, internal_ref } = req.body;
     const skuRecord = await sku.findOne({
       where: {
         name: name.trim()
@@ -104,7 +104,7 @@ async function createSku(req, res) {
     if(skuRecord) {
       return res.status(404).json({ error: 'SKU déjà existant' });
     }
-    const createdSku = await sku.create({ name, prix_fournisseur });
+    const createdSku = await sku.create({ name, prix_fournisseur, internal_ref });
 
     return res.status(201).json(createdSku);
   } catch (error) {
