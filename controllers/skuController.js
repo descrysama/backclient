@@ -20,7 +20,7 @@ async function getAllSkus(req, res) {
       urlsArray = []
       skuLinks.map((link) => urlsArray.push({id: link.id, url: link.url}));
 
-      allSkusPopulated.push({id: skuId, name: skuRecord.name, urls: urlsArray})
+      allSkusPopulated.push({id: skuId, name: skuRecord.name, prix_fournisseur: skuRecord.prix_fournisseur, urls: urlsArray})
     }
 
     return res.status(200).json(allSkusPopulated);
@@ -48,9 +48,9 @@ async function getSingle(req, res) {
     });
 
     urls = [];
-    const { id, name } = singleSku
+    const { id, name, prix_fournisseur } = singleSku
     skuLinks.forEach(link => urls.push({id: link.id, url: link.url}));
-    return res.status(200).json({id, name, urls});
+    return res.status(200).json({id, name, prix_fournisseur, urls});
 
   } catch (error) {
 
@@ -63,7 +63,7 @@ async function getSingle(req, res) {
 async function createSku(req, res) {
   try {
 
-    const { name } = req.body;
+    const { name, prix_fournisseur } = req.body;
     const skuRecord = await sku.findOne({
       where: {
         name: name.trim()
@@ -73,7 +73,7 @@ async function createSku(req, res) {
     if(skuRecord) {
       return res.status(404).json({ error: 'SKU déjà existant' });
     }
-    const createdSku = await sku.create({ name });
+    const createdSku = await sku.create({ name, prix_fournisseur });
 
     return res.status(201).json(createdSku);
   } catch (error) {

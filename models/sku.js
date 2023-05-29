@@ -10,6 +10,10 @@ module.exports = function(sequelize, DataTypes) {
     name: {
       type: DataTypes.STRING(128),
       allowNull: false
+    },
+    prix_fournisseur: {
+      type: DataTypes.FLOAT,
+      allowNull: true
     }
   }, {
     sequelize,
