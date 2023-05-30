@@ -43,13 +43,13 @@ async function deleteLink(req, res) {
 
 
 async function addLink(req, res) {
-  const { url } = req.body
+  const { url, title } = req.body
   if (!url) {
     return res.status(500).json({ error: "Aucun url fournis veuillez en ajouter un." })
   }
 
   try {
-    const createMobilaxLink = await mobilaxLinks.create({ url });
+    const createMobilaxLink = await mobilaxLinks.create({ url, title });
     return res.status(200).json(createMobilaxLink)
   }catch(e) {
     return res.status(500).json({error: e})

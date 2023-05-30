@@ -44,13 +44,13 @@ async function deleteLink(req, res) {
 
 
 async function addLink(req, res) {
-    const { url } = req.body
+    const { url, title } = req.body
     if (!url) {
       return res.status(500).json({ error: "Aucun url fournis veuillez en ajouter un." })
     }
   
     try {
-      const createUtopyaLink = await utopyaLinks.create({ url });
+      const createUtopyaLink = await utopyaLinks.create({ url, title });
       return res.status(200).json(createUtopyaLink)
     }catch(e) {
       return res.status(500).json({error: e})
